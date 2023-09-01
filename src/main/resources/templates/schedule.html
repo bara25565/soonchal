@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        .changeFormBtn {
+            box-shadow:inset 0px 1px 0px 0px #ffffff;
+            background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+            background-color:#ffffff;
+            border-radius:6px;
+            border:1px solid #dcdcdc;
+            display:inline-block;
+            cursor:pointer;
+            color:#666666;
+            font-family:Arial;
+            font-size:15px;
+            font-weight:bold;
+            padding:6px 24px;
+            text-decoration:none;
+            text-shadow:0px 1px 0px #ffffff;
+        }
+        .changeFormBtn:hover {
+            background:linear-gradient(to bottom, #f6f6f6 5%, #ffffff 100%);
+            background-color:#f6f6f6;
+        }
+        .changeFormBtn:active {
+            position:relative;
+            top:1px;
+        }
+
+        table {
+            width: 100%;
+            border: 1px solid #444444;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #444444;
+            padding: 10px;
+        }
+
+        select {
+            diplay: inline;
+        }
+
+        .pl{
+            width: 200px;
+            border: 1px solid #C4C4C4;
+            box-sizing: border-box;
+            border-radius: 10px;
+            padding: 12px 13px;
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 16px;
+        }
+
+        .pl:focus{
+            border: 1px solid #9B51E0;
+            box-sizing: border-box;
+            border-radius: 10px;
+            outline: 3px solid #F8E4FF;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let tableList = [[${tableList}]];
+
+    var date = [];
+    var month = tableList[0][0].substring(1, 2);
+    var day = [];
+
+    for (let i = 0; i < tableList.length; i++) {
+        date.push(tableList[i][0]);
+        day.push(date[i].substring(3));
+    }
+    console.log(date);
+    console.log(month);
+    console.log(day);
+    console.log(tableList);
+    /*]]>*/
+</script>
+<h1 id="monthDisplay">월 근무표</h1>
+<table>
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+            for (let i = 0 ; i < tableList.length ; i++) {
+                document.write('<tr>');
+                let workDay = month + "월 " + day[i] + "일";
+                document.write('<td>' + workDay + '</td>');
+                for (let j = 1 ; j < tableList[i].length ; j++ ) {
+                    document.write('<td>' + tableList[i][j] + '</td>');
+                }
+                document.write('</tr>');
+            }
+        /*]]>*/
+    </script>
+</table>
+
+<form method="post" name="workerChange" action="/schedule">
+    <h3>인원 변경<br></h3>
+    변경할 날 선택 :
+    <select name="changeDate" class="pl">
+        <option>날짜</option>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            for (let i = 0; i < tableList.length; i++) {
+                let formattedDate = month + "월 " + day[i] + "일";
+                document.write('<option value="' + date[i] + '">' + formattedDate + '</option>');
+            }
+            /*]]>*/
+        </script>
+    </select>
+    <br><br>
+    인원 선택 :
+    <select name="fromWorker" class="pl">
+        <option>바꿀 사람</option>
+        <option th:each="row : ${schedule}" th:text="${row[name]}" th:value="${row[name]}"></option>
+    </select>
+    >>>
+    <select name="toWorker" class="pl">
+        <option>대신할 사람</option>
+        <option th:each="row : ${schedule}" th:text="${row[name]}" th:value="${row[name]}"></option>
+    </select>
+    &nbsp;
+    <input type="submit" name="workerChangeBtn" value="변경" class="changeFormBtn">
+</form>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    document.getElementById("monthDisplay").innerHTML = month+"월 근무표";
+    let errorMessage = [[${errorMessage}]];
+    if(errorMessage) {
+        console.log(errorMessage);
+        alert(errorMessage);
+        location.href="/schedule"
+    }
+    /*]]>*/
+</script>
+</body>
+</html>

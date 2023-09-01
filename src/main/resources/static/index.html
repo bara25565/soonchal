@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style>
+        canvas {
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+
+<h1>미로탈출</h1>
+<canvas id="mazeCanvas"></canvas>
+<br>
+<form method="POST" action="/your-endpoint">
+    <!-- 입력 필드 또는 다른 요소들 -->
+   <table>
+       <tr>
+           <tl></tl>
+       </tr>
+   </table>
+</form>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    const mazeData = [[${mazeData}]];
+
+    /*]]>*/
+</script>
+</body>
+</html>
