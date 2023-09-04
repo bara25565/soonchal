@@ -4,6 +4,14 @@
     <title>Hello</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
+        .weekColor1 {
+            background-color: #ff0; /* 원하는 색상으로 변경 */
+        }
+
+        .groupColor1 {
+            background-color: #0ff; /* 원하는 색상으로 변경 */
+        }
+
         .changeFormBtn {
             box-shadow:inset 0px 1px 0px 0px #ffffff;
             background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
@@ -71,11 +79,12 @@
     let tableList = [[${tableList}]];
 
     var date = [];
-    var month = tableList[0][0].substring(1, 2);
+    var month = [];
     var day = [];
 
     for (let i = 0; i < tableList.length; i++) {
         date.push(tableList[i][0]);
+        month.push(tableList[i][0].substring(1, 2));
         day.push(date[i].substring(3));
     }
     console.log(date);
@@ -84,13 +93,13 @@
     console.log(tableList);
     /*]]>*/
 </script>
-<h1 id="monthDisplay">월 근무표</h1>
+<h1 id="monthDisplay"></h1>
 <table>
     <script th:inline="javascript">
         /*<![CDATA[*/
             for (let i = 0 ; i < tableList.length ; i++) {
                 document.write('<tr>');
-                let workDay = month + "월 " + day[i] + "일";
+                let workDay = month[i] + "월 " + day[i] + "일";
                 document.write('<td>' + workDay + '</td>');
                 for (let j = 1 ; j < tableList[i].length ; j++ ) {
                     document.write('<td>' + tableList[i][j] + '</td>');
@@ -131,7 +140,7 @@
 </form>
 <script th:inline="javascript">
     /*<![CDATA[*/
-    document.getElementById("monthDisplay").innerHTML = month+"월 근무표";
+    document.getElementById("monthDisplay").innerHTML = "교내순찰위원회 순찰표";
     let errorMessage = [[${errorMessage}]];
     if(errorMessage) {
         console.log(errorMessage);
@@ -140,5 +149,30 @@
     }
     /*]]>*/
 </script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+
+        var table = document.querySelector('table'); // table 선택
+        var rows = table.querySelectorAll('tr'); // 모든 행 선택
+
+        for (var i = 0; i < rows.length; i++) {
+            if ((i) % 5 === 0) { // 행 번호가 5의 배수인 경우
+                rows[i].cells[0].classList.add('weekColor1'); // 'weekColor1' 클래스 추가
+            }
+
+            for (var j = 0; j < rows[i].cells.length; j++) {
+                if ( (j % 6 >= 1) && (j % 6 < 4) ) {
+                    rows[i].cells[j].classList.add('groupColor1')
+                }
+
+            }
+        }
+
+    }
+
+    /*]]>*/
+</script>
+
 </body>
 </html>

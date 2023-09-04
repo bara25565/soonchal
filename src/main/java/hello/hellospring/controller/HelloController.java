@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class HelloController {
     private static final Logger log = LoggerFactory.getLogger(HelloController.class);
-    private static final String SELECT_ALL_SQL = "SELECT * FROM schedule_8";
+    private static final String SELECT_ALL_SQL = "SELECT * FROM schedule_9";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -102,14 +102,14 @@ public class HelloController {
             System.out.println("바꿀 사람과 대신할 사람은 달라야 합니다");
 
         } else {
-            String isCorrectSql = "SELECT " + changeDate + " FROM schedule_8 WHERE name = ? AND " + changeDate + " LIKE '3%'";
+            String isCorrectSql = "SELECT " + changeDate + " FROM schedule_9 WHERE name = ? AND " + changeDate + " LIKE '3%'";
 
             try {
                 String isCorrect = jdbcTemplate.queryForObject(isCorrectSql, String.class, fromWorker);
-                String sql = "UPDATE schedule_8 SET " + changeDate + " = ? WHERE name = ?";
+                String sql = "UPDATE schedule_9 SET " + changeDate + " = ? WHERE name = ?";
                 jdbcTemplate.update(sql, "", fromWorker);
 
-                sql = "UPDATE schedule_8 SET " + changeDate + " = ? WHERE name = ?";
+                sql = "UPDATE schedule_9 SET " + changeDate + " = ? WHERE name = ?";
                 jdbcTemplate.update(sql, isCorrect, toWorker);
 
                 log.trace("Changed  " + changeDate + " : " + fromWorker + " >>> " + toWorker);
