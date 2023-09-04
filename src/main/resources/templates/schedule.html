@@ -5,11 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
         .weekColor1 {
-            background-color: #ff0; /* 원하는 색상으로 변경 */
+            background-color: #FFBCBC; /* 원하는 색상으로 변경 */
         }
 
         .groupColor1 {
-            background-color: #0ff; /* 원하는 색상으로 변경 */
+            background-color: #9EFFD6; /* 원하는 색상으로 변경 */
         }
 
         .changeFormBtn {
@@ -87,19 +87,18 @@
         month.push(tableList[i][0].substring(1, 2));
         day.push(date[i].substring(3));
     }
-    console.log(date);
-    console.log(month);
-    console.log(day);
-    console.log(tableList);
     /*]]>*/
 </script>
 <h1 id="monthDisplay"></h1>
 <table>
     <script th:inline="javascript">
         /*<![CDATA[*/
+
+        const DayOfTheWeek = ["월", "화", "수", "목", "금"];
+
             for (let i = 0 ; i < tableList.length ; i++) {
                 document.write('<tr>');
-                let workDay = month[i] + "월 " + day[i] + "일";
+                let workDay = month[i] + "월 " + day[i] + "일  " + DayOfTheWeek[i%5];
                 document.write('<td>' + workDay + '</td>');
                 for (let j = 1 ; j < tableList[i].length ; j++ ) {
                     document.write('<td>' + tableList[i][j] + '</td>');
@@ -117,8 +116,9 @@
         <option>날짜</option>
         <script th:inline="javascript">
             /*<![CDATA[*/
+
             for (let i = 0; i < tableList.length; i++) {
-                let formattedDate = month + "월 " + day[i] + "일";
+                let formattedDate = month[i] + "월 " + day[i] + "일";
                 document.write('<option value="' + date[i] + '">' + formattedDate + '</option>');
             }
             /*]]>*/
@@ -165,12 +165,9 @@
                 if ( (j % 6 >= 1) && (j % 6 < 4) ) {
                     rows[i].cells[j].classList.add('groupColor1')
                 }
-
             }
         }
-
     }
-
     /*]]>*/
 </script>
 
