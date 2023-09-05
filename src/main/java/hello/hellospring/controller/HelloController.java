@@ -17,7 +17,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class HelloController {
     private static final Logger log = LoggerFactory.getLogger(HelloController.class);
-
     public static String scheduleMonth = "schedule_9";
     private static final String SELECT_ALL_SQL = "SELECT * FROM " + scheduleMonth;
 
