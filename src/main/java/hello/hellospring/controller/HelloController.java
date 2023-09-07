@@ -8,13 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
+@RestController
 public class HelloController {
     private static final Logger log = LoggerFactory.getLogger(HelloController.class);
     public static String scheduleMonth = "schedule_9";
@@ -25,7 +26,7 @@ public class HelloController {
 
     //사이트 접속
     @GetMapping("/schedule")
-    public String view(@RequestParam(value = "errorMessage", required = false ) String errorMessage,Model model, HttpServletRequest request){
+    public ResponseEntity<Map<String, Object>>  view(@RequestParam(value = "errorMessage", required = false ) String errorMessage, Model model, HttpServletRequest request){
 
         // 순찰표의 모든 데이터를 가지고 있는 schedule
         List<Map<String, Object>> schedule = jdbcTemplate.queryForList(SELECT_ALL_SQL);
@@ -79,13 +80,17 @@ public class HelloController {
             }
         }
 
-        model.addAttribute("errorMessage", errorMessage);
-        model.addAttribute("schedule", schedule);
-        model.addAttribute("workDays", workDays);
-        model.addAttribute("tableList", tableList);
-        return "schedule";
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("errorMessage", errorMessage);
+        responseData.put("schedule", schedule);
+        responseData.put("workDays", workDays);
+        responseData.put("tableList", tableList);
+
+
+        return ResponseEntity.ok(responseData);
     }
 
+    /*
     //근무 변경
     @PostMapping("/schedule")
     public String set(
@@ -124,5 +129,6 @@ public class HelloController {
         }
         return "redirect:schedule";
     }
+    */
 
 }
