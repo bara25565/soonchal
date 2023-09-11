@@ -98,7 +98,7 @@
 
             for (let i = 0 ; i < tableList.length ; i++) {
                 document.write('<tr>');
-                let workDay = month[i] + "월 " + day[i] + "일  " + DayOfTheWeek[i%5];
+                let workDay = month[i] + "월 " + day[i] + "일 " + DayOfTheWeek[i%5];
                 document.write('<td>' + workDay + '</td>');
                 for (let j = 1 ; j < tableList[i].length ; j++ ) {
                     document.write('<td>' + tableList[i][j] + '</td>');
@@ -112,6 +112,8 @@
 <form method="post" name="workerChange" action="/schedule">
     <h3>인원 변경<br></h3>
     변경할 날 선택 :
+    <br />
+    <br />
     <select name="changeDate" class="pl">
         <option>날짜</option>
         <script th:inline="javascript">
